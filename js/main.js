@@ -1,3 +1,7 @@
+function getRandomInt(min, max, decimal) {
+  return (Math.random() * (max - min) + min).toFixed(decimal);
+}
+
 function getNumberFromRange(minNumber, maxNumber, decimalPlaces) {
   if (minNumber < 0 || maxNumber < 0) {
     return;
@@ -13,11 +17,7 @@ function getNumberFromRange(minNumber, maxNumber, decimalPlaces) {
     decimalPlaces = 0;
   }
 
-  function getRandomInt(min, max, decimal) {
-    return (Math.random() * (max - min) + min).toFixed(decimal);
-  }
-
-  getRandomInt(minNumber, maxNumber, decimalPlaces);
+  return getRandomInt(minNumber, maxNumber, decimalPlaces);
 }
 
 getNumberFromRange(50, 40);
