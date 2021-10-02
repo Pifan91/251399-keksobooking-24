@@ -2,22 +2,11 @@ function getRandomInt(min, max, decimal) {
   return (Math.random() * (max - min) + min).toFixed(decimal);
 }
 
-function getNumberFromRange(minNumber, maxNumber, decimalPlaces) {
-  if (minNumber < 0 || maxNumber < 0) {
-    return;
-  }
+function getNumberFromRange(minNumber, maxNumber, decimalPlaces = 0) {
+  const lower = Math.min(Math.min(Math.abs(minNumber), Math.abs(maxNumber)));
+  const upper = Math.max(Math.max(Math.abs(minNumber), Math.abs(maxNumber)));
 
-  if (minNumber > maxNumber) {
-    const tempNumber = maxNumber;
-    maxNumber = minNumber;
-    minNumber = tempNumber;
-  }
-
-  if (!decimalPlaces) {
-    decimalPlaces = 0;
-  }
-
-  return getRandomInt(minNumber, maxNumber, decimalPlaces);
+  return getRandomInt(lower, upper, decimalPlaces);
 }
 
 getNumberFromRange(50, 40);
