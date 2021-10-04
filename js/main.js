@@ -54,51 +54,28 @@ const getNumberFromRange = (minNumber, maxNumber, decimalPlaces = 0) => {
   return getRandomInt(lower, upper, decimalPlaces);
 };
 
-const getRandomElementInArray = (array) => {
-  const randomIndex =  Math.floor(Math.random() * array.length);
-  return array[randomIndex];
+const getRandomElementInArray = (items) => {
+  const randomIndex =  Math.floor(Math.random() * items.length);
+  return items[randomIndex];
 };
 
-const getRandomArray = (array) => {
-  const randomIndex =  Math.floor(Math.random() * array.length);
-  return array.slice(randomIndex);
+const getRandomArray = (items) => {
+  const randomIndex =  Math.floor(Math.random() * items.length);
+  return items.slice(randomIndex);
 };
 
-const createAuthor = (index) => {
-  return {
-    avatar: 'img/avatars/user' + ((index < 10) ? '0' + index : index)  + '.png',
-  };
-};
+const createAuthor = (index) => ({ avatar: `img/avatars/user${  (index < 10) ? `0${  index}` : index   }.png`});
 
-const createOffer = (location) => {
-  return {
-    title: getRandomElementInArray(APARTAMENT_TITLES),
-    address : location.lat + ', ' + location.lng,
-    price: getNumberFromRange(1000, 100000),
-    type: getRandomElementInArray(APARTAMENT_TYPES),
-    rooms: getNumberFromRange(1, 10),
-    guests: getNumberFromRange(1, 10),
-    checkin: getRandomElementInArray(TIMES),
-    checkout: getRandomElementInArray(TIMES),
-    features: getRandomArray(APARTAMENT_FEATURES),
-    description: getRandomElementInArray(APARTAMENT_DESCRIPTIONS),
-    photos: getRandomArray(APARTAMENT_PHOTOS),
-  };
-};
+const createOffer = (location) => ({ title: getRandomElementInArray(APARTAMENT_TITLES), address :`${location.lat}, ${location.lng}`, price: getNumberFromRange(1000, 100000), type: getRandomElementInArray(APARTAMENT_TYPES), rooms: getNumberFromRange(1, 10), guests: getNumberFromRange(1, 10), checkin: getRandomElementInArray(TIMES), checkout: getRandomElementInArray(TIMES), features: getRandomArray(APARTAMENT_FEATURES), description: getRandomElementInArray(APARTAMENT_DESCRIPTIONS), photos: getRandomArray(APARTAMENT_PHOTOS)});
 
-const createLocation = () => {
-  return {
-    lat: getRandomInt(MIN_LATITUDE, MAX_LATITUDE, 5),
-    lng: getRandomInt(MIN_LONGITUDE, MAX_LONGITUDE, 5),
-  };
-};
+const createLocation = () => ({ lat: getRandomInt(MIN_LATITUDE, MAX_LATITUDE, 5), lng: getRandomInt(MIN_LONGITUDE, MAX_LONGITUDE, 5)});
 
 const createAdvertisements = () => {
   const advertisements = [];
   for (let i = 1; i <= SIMILAR_ADVERTISEMENT_COUNT; i++) {
-    const author = createAuthor (i);
-    const location = createLocation ();
-    const offer = createOffer (location);
+    const author = createAuthor(i);
+    const location = createLocation();
+    const offer = createOffer(location);
     advertisements.push ({
       author,
       offer,
