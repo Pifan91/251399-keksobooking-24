@@ -1,4 +1,3 @@
-import { createAdvertisements } from './data.js';
+import { createCards } from './card.js';
 
-const similarAdvertisements = createAdvertisements();
-console.log(similarAdvertisements);
+createCards();
