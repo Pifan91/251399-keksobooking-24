@@ -26,8 +26,39 @@ const timeSync = (evt) => {
   adFormTimeOut.value = evt.target.value;
 };
 
+const checkRoomsAndGuests = () => {
+
+  if (Number(adFormRooms.value) === 1 && Number(adFormGuests.value) === 1) {
+    adFormGuests.setCustomValidity('');
+  } else if (Number(adFormRooms.value) === 1) {
+    adFormGuests.setCustomValidity('1 комната для 1 гостя');
+  }
+
+  if (Number(adFormRooms.value) === 2 && (Number(adFormGuests.value) === 1 || Number(adFormGuests.value) === 2)) {
+    adFormGuests.setCustomValidity('');
+  } else if (Number(adFormRooms.value) === 2) {
+    adFormGuests.setCustomValidity('2 комнаты для 1-2 гостей');
+  }
+
+  if (Number(adFormRooms.value) === 3 && (Number(adFormGuests.value) === 1 || Number(adFormGuests.value) === 2 || Number(adFormGuests.value) === 3)) {
+    adFormGuests.setCustomValidity('');
+  } else if (Number(adFormRooms.value) === 3) {
+    adFormGuests.setCustomValidity('3 комнаты для 1-3 гостей');
+  }
+
+  if (Number(adFormRooms.value) === 100 && Number(adFormGuests.value) === 0) {
+    adFormGuests.setCustomValidity('');
+  } else if (Number(adFormRooms.value) === 100) {
+    adFormGuests.setCustomValidity('100 комнат не для гостей');
+  }
+
+  adFormRooms.reportValidity();
+  adFormGuests.reportValidity();
+};
+
 window.addEventListener('load', () => {
   setMinPrice(adFormType);
+  checkRoomsAndGuests();
 });
 
 adFormTitle.addEventListener('input', () => {
@@ -66,6 +97,15 @@ adFormTimeIn.addEventListener('input', (evt) => {
 
 adFormTimeOut.addEventListener('input', (evt) => {
   timeSync(evt);
+});
+
+
+adFormRooms.addEventListener('input', () => {
+  checkRoomsAndGuests();
+});
+
+adFormGuests.addEventListener('input', () => {
+  checkRoomsAndGuests();
 });
 
 const toggleElements = (elements) => {
