@@ -1,7 +1,9 @@
-import { createAdvertisements } from './data.js';
-
-const fillTextContent = (element, option1, option2) => {
-  (option1) ? element.textContent = option1 : option2 || element.remove();
+const fillData = (element, option1, option2) => {
+  if (/png$|jpg$/.test(option1)) {
+    (option1) ? element.src = option1 : option2 || element.remove();
+  } else {
+    (option1) ? element.textContent = option1 : option2 || element.remove();
+  }
 };
 
 const cleanPhotoContainer = (container) => {
@@ -33,29 +35,29 @@ const createCard = (advertisement) => {
     hotel: 'Отель',
   };
 
-  fillTextContent(cardTitle, advertisement.offer.title, 'Объявление');
-  fillTextContent(cardAddress, advertisement.offer.address);
-  fillTextContent(cardPrice, `${advertisement.offer.price} ₽/ночь`, 'Уточняйте цену');
-  fillTextContent(cardType, houseTypes[advertisement.offer.type]);
-  fillTextContent(cardDescription, advertisement.offer.description);
-  fillTextContent(avatar, advertisement.author.avatar);
+  fillData(cardTitle, advertisement.offer.title, 'Объявление');
+  fillData(cardAddress, advertisement.offer.address);
+  fillData(cardPrice, `${advertisement.offer.price} ₽/ночь`, 'Уточняйте цену');
+  fillData(cardType, houseTypes[advertisement.offer.type]);
+  fillData(cardDescription, advertisement.offer.description);
+  fillData(avatar, advertisement.author.avatar);
 
   if (advertisement.offer.rooms || advertisement.offer.guests) {
-    fillTextContent(cardCapacity, `${advertisement.offer.rooms} комнаты для ${advertisement.offer.guests} гостей`);
+    fillData(cardCapacity, `${advertisement.offer.rooms} комнаты для ${advertisement.offer.guests} гостей`);
   } else if (advertisement.offer.rooms || !advertisement.offer.guests) {
-    fillTextContent(cardCapacity, `${advertisement.offer.rooms} комнаты`);
+    fillData(cardCapacity, `${advertisement.offer.rooms} комнаты`);
   } else if (!advertisement.offer.rooms || advertisement.offer.guests) {
-    fillTextContent(cardCapacity, `${advertisement.offer.guests} гостей`);
+    fillData(cardCapacity, `${advertisement.offer.guests} гостей`);
   } else {
     cardCapacity.remove();
   }
 
   if (advertisement.offer.checkin || advertisement.offer.checkout) {
-    fillTextContent(cardTime, `Заезд после ${advertisement.offer.checkin}, выезд до ${advertisement.offer.checkout}`);
+    fillData(cardTime, `Заезд после ${advertisement.offer.checkin}, выезд до ${advertisement.offer.checkout}`);
   } else if (advertisement.offer.checkin || !advertisement.offer.checkout) {
-    fillTextContent(cardTime, `Заезд после ${advertisement.offer.checkin}`);
+    fillData(cardTime, `Заезд после ${advertisement.offer.checkin}`);
   } else if (!advertisement.offer.checkin || advertisement.offer.checkout) {
-    fillTextContent(cardTime, `Выезд до ${advertisement.offer.checkout}`);
+    fillData(cardTime, `Выезд до ${advertisement.offer.checkout}`);
   } else {
     cardTime.remove();
   }
@@ -87,16 +89,4 @@ const createCard = (advertisement) => {
   return card;
 };
 
-const createCards = () => {
-  const map = document.querySelector('#map-canvas');
-  const similarAdvertisements = createAdvertisements();
-  const fragment = document.createDocumentFragment();
-
-  for (const advertisement of similarAdvertisements) {
-    fragment.appendChild(createCard(advertisement));
-  }
-
-  map.appendChild(fragment);
-};
-
-export { createCards };
+export { createCard };

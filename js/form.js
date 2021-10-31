@@ -1,7 +1,11 @@
 const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
+const DEFAULT_LAT = 35.68172;
+const DEFAULT_LNG = 139.75392;
+const mapFilters = document.querySelector('.map__filters');
 const adForm = document.querySelector('.ad-form');
 const adFormTitle = adForm.querySelector('[name="title"]');
+const adFormAddress = adForm.querySelector('[name="address"]');
 const adFormType = adForm.querySelector('[name="type"]');
 const adFormPrice = adForm.querySelector('[name="price"]');
 const adFormTimeIn = adForm.querySelector('[name="timein"]');
@@ -14,6 +18,10 @@ const priceByType = {
   hotel: 3000,
   house: 5000,
   palace: 10000,
+};
+
+const setCoordinates = (lat, lng) => {
+  adFormAddress.value = `${lat}, ${lng}`;
 };
 
 const setMinPrice = (type) => {
@@ -56,11 +64,6 @@ const checkRoomsAndGuests = () => {
   adFormGuests.reportValidity();
 };
 
-window.addEventListener('load', () => {
-  setMinPrice(adFormType);
-  checkRoomsAndGuests();
-});
-
 adFormTitle.addEventListener('input', () => {
   const valueLength = adFormTitle.value.length;
 
@@ -99,7 +102,6 @@ adFormTimeOut.addEventListener('input', (evt) => {
   timeSync(evt);
 });
 
-
 adFormRooms.addEventListener('input', () => {
   checkRoomsAndGuests();
 });
@@ -119,11 +121,23 @@ const toggleForm = (form) => {
   const formSelects = form.querySelectorAll('select');
   const formInputs = form.querySelectorAll('input');
 
-  //Сомнительное решение если будет более одного класса у формы.
-  form.classList.toggle(`${form.classList.value}--disabled`);
+  (form.classList.contains(`${form.classList[0]}--disabled`)) ? form.classList.remove(`${form.classList[0]}--disabled`) : form.classList.add(`${form.classList[0]}--disabled`);
   toggleElements(formFieldsets);
   toggleElements(formSelects);
   toggleElements(formInputs);
 };
 
-export { toggleForm };
+const deactivatePage = () => {
+  toggleForm(adForm);
+  toggleForm(mapFilters);
+};
+
+const activatePage = () => {
+  toggleForm(adForm);
+  toggleForm(mapFilters);
+  setCoordinates(DEFAULT_LAT, DEFAULT_LNG);
+  setMinPrice(adFormType);
+  checkRoomsAndGuests();
+};
+
+export { deactivatePage, activatePage, setCoordinates };
