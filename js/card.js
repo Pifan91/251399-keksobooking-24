@@ -62,7 +62,7 @@ const createCard = (advertisement) => {
     cardTime.remove();
   }
 
-  if (cardFeatures.length !== 0) {
+  if (advertisement.offer.features) {
     for (const cardFeature of cardFeatures) {
       const isNecessary = advertisement.offer.features.some(
         (advertisementFeature) => cardFeature.classList.contains(`popup__feature--${advertisementFeature}`),
@@ -78,7 +78,7 @@ const createCard = (advertisement) => {
 
   cleanPhotoContainer(cardPhotos);
 
-  if (advertisement.offer.photos.length !== 0) {
+  if (advertisement.offer.photos) {
     for (const photoUrl of advertisement.offer.photos) {
       const cardPhotoElement = cardPhotoTemplate.cloneNode(true);
       cardPhotoElement.src = photoUrl;
