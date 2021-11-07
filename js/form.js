@@ -1,7 +1,11 @@
+import { sendData } from './api.js';
+import { showMessage } from './util.js';
+
 const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
 const DEFAULT_LAT = 35.68172;
 const DEFAULT_LNG = 139.75392;
+const DEFAULT_PRICE = 1000;
 const mapFilters = document.querySelector('.map__filters');
 const adForm = document.querySelector('.ad-form');
 const adFormTitle = adForm.querySelector('[name="title"]');
@@ -29,9 +33,26 @@ const setMinPrice = (type) => {
   adFormPrice.placeholder = priceByType[type.value];
 };
 
+const setDefaultPrice = () => {
+  adFormPrice.min = DEFAULT_PRICE;
+  adFormPrice.placeholder = DEFAULT_PRICE;
+};
+
 const timeSync = (evt) => {
   adFormTimeIn.value = evt.target.value;
   adFormTimeOut.value = evt.target.value;
+};
+
+const checkPrice = () => {
+  if (Number(adFormPrice.value) < Number(adFormPrice.min)) {
+    adFormPrice.setCustomValidity(`Минимальная цена ${adFormPrice.min}`);
+  } else if (Number(adFormPrice.value) > Number(adFormPrice.max)) {
+    adFormPrice.setCustomValidity(`Максимальная цена ${adFormPrice.max}`);
+  } else {
+    adFormPrice.setCustomValidity('');
+  }
+
+  adFormPrice.reportValidity();
 };
 
 const checkRoomsAndGuests = () => {
@@ -80,18 +101,11 @@ adFormTitle.addEventListener('input', () => {
 
 adFormType.addEventListener('input', () => {
   setMinPrice(adFormType);
+  checkPrice();
 });
 
 adFormPrice.addEventListener('input', () => {
-  if (Number(adFormPrice.value) < Number(adFormPrice.min)) {
-    adFormPrice.setCustomValidity(`Минимальная цена ${adFormPrice.min}`);
-  } else if (Number(adFormPrice.value) > Number(adFormPrice.max)) {
-    adFormPrice.setCustomValidity(`Максимальная цена ${adFormPrice.max}`);
-  } else {
-    adFormPrice.setCustomValidity('');
-  }
-
-  adFormPrice.reportValidity();
+  checkPrice();
 });
 
 adFormTimeIn.addEventListener('input', (evt) => {
@@ -108,6 +122,20 @@ adFormRooms.addEventListener('input', () => {
 
 adFormGuests.addEventListener('input', () => {
   checkRoomsAndGuests();
+});
+
+adForm.addEventListener('submit', (evt) => {
+  evt.preventDefault();
+
+  sendData(
+    () => showMessage('success'),
+    () => showMessage('error'),
+    new FormData(evt.target),
+  );
+});
+
+adForm.addEventListener('reset', () => {
+  setDefaultPrice();
 });
 
 const toggleElements = (elements) => {
@@ -140,4 +168,4 @@ const activatePage = () => {
   checkRoomsAndGuests();
 };
 
-export { deactivatePage, activatePage, setCoordinates };
+export { deactivatePage, activatePage, setCoordinates, adForm };

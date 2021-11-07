@@ -1,10 +1,15 @@
-import { createAdvertisements } from './data.js';
-import { activatePage, setCoordinates } from './form.js';
+import { activatePage, deactivatePage, setCoordinates, adForm } from './form.js';
 import { createCard } from './card.js';
+import { getData } from './api.js';
+
+window.addEventListener('load', () => {
+  deactivatePage();
+});
 
 const map = L.map('map-canvas')
   .on('load', () => {
     activatePage();
+    getData();
   })
   .setView({
     lat: 35.68172,
@@ -19,7 +24,7 @@ L.tileLayer(
 ).addTo(map);
 
 const mainPinIcon = L.icon({
-  iconUrl: '/img/main-pin.svg',
+  iconUrl: './img/main-pin.svg',
   iconSize: [52, 52],
   iconAnchor: [26, 52],
 });
@@ -43,27 +48,47 @@ mainPinMarker.on('move', () => {
   setCoordinates(lat, lng);
 });
 
-const points = createAdvertisements();
+const renderPoints = (points) => {
+  points.forEach((point) => {
+    const lat = point.location.lat;
+    const lng = point.location.lng;
 
-points.forEach((point) => {
-  const lat = point.location.lat;
-  const lng = point.location.lng;
+    const pointIcon = L.icon({
+      iconUrl: './img/pin.svg',
+      iconSize: [40, 40],
+      iconAnchor: [20, 40],
+    });
 
-  const pointIcon = L.icon({
-    iconUrl: '/img/pin.svg',
-    iconSize: [40, 40],
-    iconAnchor: [20, 40],
+    const marker = L.marker(
+      {
+        lat,
+        lng,
+      },
+      {
+        icon: pointIcon,
+      },
+    );
+
+    marker.addTo(map).bindPopup(createCard(point));
+  });
+};
+
+const mapToDefault = () => {
+  map.closePopup();
+
+  mainPinMarker.setLatLng({
+    lat: 35.68172,
+    lng: 139.75392,
   });
 
-  const marker = L.marker(
-    {
-      lat,
-      lng,
-    },
-    {
-      icon: pointIcon,
-    },
-  );
+  map.setView({
+    lat: 35.68172,
+    lng: 139.75392,
+  }, 13);
+};
 
-  marker.addTo(map).bindPopup(createCard(point));
+adForm.addEventListener('reset', () => {
+  mapToDefault();
 });
+
+export { renderPoints };
