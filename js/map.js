@@ -1,6 +1,5 @@
 import { activatePage, deactivatePage, setCoordinates, adForm } from './form.js';
 import { createCard } from './card.js';
-import { getData } from './api.js';
 
 window.addEventListener('load', () => {
   deactivatePage();
@@ -9,7 +8,6 @@ window.addEventListener('load', () => {
 const map = L.map('map-canvas')
   .on('load', () => {
     activatePage();
-    getData();
   })
   .setView({
     lat: 35.68172,
@@ -48,7 +46,10 @@ mainPinMarker.on('move', () => {
   setCoordinates(lat, lng);
 });
 
+let markerGroup;
+
 const renderPoints = (points) => {
+  markerGroup = L.layerGroup();
   points.forEach((point) => {
     const lat = point.location.lat;
     const lng = point.location.lng;
@@ -68,9 +69,10 @@ const renderPoints = (points) => {
         icon: pointIcon,
       },
     );
-
-    marker.addTo(map).bindPopup(createCard(point));
+    markerGroup.addLayer(marker);
+    marker.bindPopup(createCard(point));
   });
+  markerGroup.addTo(map);
 };
 
 const mapToDefault = () => {
@@ -87,8 +89,12 @@ const mapToDefault = () => {
   }, 13);
 };
 
+const clearMap = () => {
+  map.removeLayer(markerGroup);
+};
+
 adForm.addEventListener('reset', () => {
   mapToDefault();
 });
 
-export { renderPoints };
+export { renderPoints, clearMap };

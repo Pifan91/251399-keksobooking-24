@@ -1,8 +1,7 @@
-import { renderPoints } from './map.js';
 import { adForm } from './form.js';
 import { showMessage } from './util.js';
 
-const getData = () => {
+const getData = (onSuccess) => {
   fetch('https://24.javascript.pages.academy/keksobooking/data')
     .then((response) => {
       if (response.ok) {
@@ -13,7 +12,7 @@ const getData = () => {
     })
     .then((advertisements) => {
       if (advertisements) {
-        renderPoints(advertisements);
+        onSuccess(advertisements);
       }
     })
     .catch((err) => {
