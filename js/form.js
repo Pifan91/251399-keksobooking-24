@@ -6,6 +6,7 @@ const MAX_TITLE_LENGTH = 100;
 const DEFAULT_LAT = 35.68172;
 const DEFAULT_LNG = 139.75392;
 const DEFAULT_PRICE = 1000;
+const DEFAULT_PICTURE = 'img/muffin-grey.svg';
 const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 const mapFilters = document.querySelector('.map__filters');
 const adForm = document.querySelector('.ad-form');
@@ -41,6 +42,11 @@ const setMinPrice = (type) => {
 const setDefaultPrice = () => {
   adFormPrice.min = DEFAULT_PRICE;
   adFormPrice.placeholder = DEFAULT_PRICE;
+};
+
+const setDefaultPictures = () => {
+  adFormAvatarPrewiew.src = DEFAULT_PICTURE;
+  adFormImagesPrewiew.src = DEFAULT_PICTURE;
 };
 
 const timeSync = (evt) => {
@@ -161,6 +167,7 @@ adForm.addEventListener('submit', (evt) => {
 
 adForm.addEventListener('reset', () => {
   setDefaultPrice();
+  setDefaultPictures();
 });
 
 const toggleElements = (elements) => {
