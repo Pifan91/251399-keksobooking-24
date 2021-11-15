@@ -1,10 +1,6 @@
 import { activatePage, deactivatePage, setCoordinates, adForm } from './form.js';
 import { createCard } from './card.js';
 
-window.addEventListener('load', () => {
-  deactivatePage();
-});
-
 const map = L.map('map-canvas')
   .on('load', () => {
     activatePage();
@@ -40,7 +36,7 @@ const mainPinMarker = L.marker(
 
 mainPinMarker.addTo(map);
 
-mainPinMarker.on('move', () => {
+mainPinMarker.on('moveend', () => {
   const lat = mainPinMarker.getLatLng().lat.toFixed(5);
   const lng = mainPinMarker.getLatLng().lng.toFixed(5);
   setCoordinates(lat, lng);
@@ -92,6 +88,10 @@ const mapToDefault = () => {
 const clearMap = () => {
   map.removeLayer(markerGroup);
 };
+
+window.addEventListener('load', () => {
+  deactivatePage();
+});
 
 adForm.addEventListener('reset', () => {
   mapToDefault();
