@@ -96,6 +96,36 @@ const checkRoomsAndGuests = () => {
   adFormGuests.reportValidity();
 };
 
+const toggleElements = (elements) => {
+  elements.forEach((element) => {
+    (element.disabled) ? element.disabled = false : element.disabled = true;
+  });
+};
+
+const toggleForm = (form) => {
+  const formFieldsets = form.querySelectorAll('fieldset');
+  const formSelects = form.querySelectorAll('select');
+  const formInputs = form.querySelectorAll('input');
+
+  (form.classList.contains(`${form.classList[0]}--disabled`)) ? form.classList.remove(`${form.classList[0]}--disabled`) : form.classList.add(`${form.classList[0]}--disabled`);
+  toggleElements(formFieldsets);
+  toggleElements(formSelects);
+  toggleElements(formInputs);
+};
+
+const deactivatePage = () => {
+  toggleForm(adForm);
+  toggleForm(mapFilters);
+};
+
+const activatePage = () => {
+  toggleForm(adForm);
+  toggleForm(mapFilters);
+  setCoordinates(DEFAULT_LAT, DEFAULT_LNG);
+  setMinPrice(adFormType);
+  checkRoomsAndGuests();
+};
+
 adFormAvatarUpload.addEventListener('change', () => {
   const file = adFormAvatarUpload.files[0];
   const fileName = file.name.toLowerCase();
@@ -169,35 +199,5 @@ adForm.addEventListener('reset', () => {
   setDefaultPrice();
   setDefaultPictures();
 });
-
-const toggleElements = (elements) => {
-  elements.forEach((element) => {
-    (element.disabled) ? element.disabled = false : element.disabled = true;
-  });
-};
-
-const toggleForm = (form) => {
-  const formFieldsets = form.querySelectorAll('fieldset');
-  const formSelects = form.querySelectorAll('select');
-  const formInputs = form.querySelectorAll('input');
-
-  (form.classList.contains(`${form.classList[0]}--disabled`)) ? form.classList.remove(`${form.classList[0]}--disabled`) : form.classList.add(`${form.classList[0]}--disabled`);
-  toggleElements(formFieldsets);
-  toggleElements(formSelects);
-  toggleElements(formInputs);
-};
-
-const deactivatePage = () => {
-  toggleForm(adForm);
-  toggleForm(mapFilters);
-};
-
-const activatePage = () => {
-  toggleForm(adForm);
-  toggleForm(mapFilters);
-  setCoordinates(DEFAULT_LAT, DEFAULT_LNG);
-  setMinPrice(adFormType);
-  checkRoomsAndGuests();
-};
 
 export { deactivatePage, activatePage, setCoordinates, adForm };
