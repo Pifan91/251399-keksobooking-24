@@ -67,7 +67,6 @@ const checkPrice = () => {
 };
 
 const checkRoomsAndGuests = () => {
-
   if (Number(roomsElement.value) === 1 && Number(guestsElement.value) === 1) {
     guestsElement.setCustomValidity('');
   } else if (Number(roomsElement.value) === 1) {
