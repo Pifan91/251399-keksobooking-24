@@ -11,7 +11,7 @@ const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 const mapFilters = document.querySelector('.map__filters');
 const adForm = document.querySelector('.ad-form');
 const adFormAvatarUpload = adForm.querySelector('[name="avatar"]');
-const adFormAvatarPrewiew = adForm.querySelector('.ad-form-header__preview img');
+const adFormAvatarPreview = adForm.querySelector('.ad-form-header__preview img');
 const adFormTitle = adForm.querySelector('[name="title"]');
 const adFormAddress = adForm.querySelector('[name="address"]');
 const adFormType = adForm.querySelector('[name="type"]');
@@ -21,7 +21,7 @@ const adFormTimeOut = adForm.querySelector('[name="timeout"]');
 const adFormRooms = adForm.querySelector('[name="rooms"]');
 const adFormGuests = adForm.querySelector('[name="capacity"]');
 const adFormImagesUpload = adForm.querySelector('[name="images"]');
-const adFormImagesPrewiew = adForm.querySelector('.ad-form__photo img');
+const adFormImagesPreview = adForm.querySelector('.ad-form__photo img');
 const priceByType = {
   bungalow: 0,
   flat: 1000,
@@ -45,8 +45,8 @@ const setDefaultPrice = () => {
 };
 
 const setDefaultPictures = () => {
-  adFormAvatarPrewiew.src = DEFAULT_PICTURE;
-  adFormImagesPrewiew.src = DEFAULT_PICTURE;
+  adFormAvatarPreview.src = DEFAULT_PICTURE;
+  adFormImagesPreview.src = DEFAULT_PICTURE;
 };
 
 const timeSync = (evt) => {
@@ -132,7 +132,7 @@ adFormAvatarUpload.addEventListener('change', () => {
   const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
 
   if (matches) {
-    adFormAvatarPrewiew.src = URL.createObjectURL(file);
+    adFormAvatarPreview.src = URL.createObjectURL(file);
   }
 });
 
@@ -142,7 +142,7 @@ adFormImagesUpload.addEventListener('change', () => {
   const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
 
   if (matches) {
-    adFormImagesPrewiew.src = URL.createObjectURL(file);
+    adFormImagesPreview.src = URL.createObjectURL(file);
   }
 });
 

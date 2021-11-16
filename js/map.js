@@ -1,13 +1,16 @@
 import { activatePage, deactivatePage, setCoordinates, adForm } from './form.js';
 import { createCard } from './card.js';
 
+const DEFAULT_LAT = 35.68172;
+const DEFAULT_LNG = 139.75392;
+
 const map = L.map('map-canvas')
   .on('load', () => {
     activatePage();
   })
   .setView({
-    lat: 35.68172,
-    lng: 139.75392,
+    lat: DEFAULT_LAT,
+    lng: DEFAULT_LNG,
   }, 13);
 
 L.tileLayer(
@@ -25,8 +28,8 @@ const mainPinIcon = L.icon({
 
 const mainPinMarker = L.marker(
   {
-    lat: 35.68172,
-    lng: 139.75392,
+    lat: DEFAULT_LAT,
+    lng: DEFAULT_LNG,
   },
   {
     draggable: true,
@@ -75,13 +78,13 @@ const mapToDefault = () => {
   map.closePopup();
 
   mainPinMarker.setLatLng({
-    lat: 35.68172,
-    lng: 139.75392,
+    lat: DEFAULT_LAT,
+    lng: DEFAULT_LNG,
   });
 
   map.setView({
-    lat: 35.68172,
-    lng: 139.75392,
+    lat: DEFAULT_LAT,
+    lng: DEFAULT_LNG,
   }, 13);
 };
 
