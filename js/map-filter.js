@@ -10,30 +10,30 @@ const THREE_ROOMS = 3;
 const NOT_FOR_GUESTS = 0;
 const ONE_GUEST = 1;
 const TWO_GUESTS = 2;
-const mapFilters = document.querySelector('.map__filters');
-const mapFiltersType = mapFilters.querySelector('#housing-type');
-const mapFiltersPrice = mapFilters.querySelector('#housing-price');
-const mapFiltersRooms = mapFilters.querySelector('#housing-rooms');
-const mapFiltersGuests = mapFilters.querySelector('#housing-guests');
-const mapFiltersFeatures = mapFilters.querySelectorAll('[name="features"]');
+const mapFiltersElement = document.querySelector('.map__filters');
+const typeElement = mapFiltersElement.querySelector('#housing-type');
+const priceElement = mapFiltersElement.querySelector('#housing-price');
+const roomsElement = mapFiltersElement.querySelector('#housing-rooms');
+const guestsElement = mapFiltersElement.querySelector('#housing-guests');
+const featuresElement = mapFiltersElement.querySelectorAll('[name="features"]');
 
 const filteringPoints = (cb) => {
-  mapFilters.addEventListener('input', () => {
+  mapFiltersElement.addEventListener('input', () => {
     clearMap();
     debounce(cb());
   });
 };
 
 const filteringByType = (point) => {
-  if (mapFiltersType.value !== 'any') {
-    return (point.offer.type === mapFiltersType.value);
+  if (typeElement.value !== 'any') {
+    return (point.offer.type === typeElement.value);
   } else {
     return point;
   }
 };
 
-const filteringByPrice = function (point) {
-  switch (mapFiltersPrice.value) {
+const filteringByPrice = (point) => {
+  switch (priceElement.value) {
     case 'low':
       return (point.offer.price < MIN_PRICE);
     case 'middle':
@@ -45,8 +45,8 @@ const filteringByPrice = function (point) {
   }
 };
 
-const filteringByRooms = function (point) {
-  switch (mapFiltersRooms.value) {
+const filteringByRooms = (point) => {
+  switch (roomsElement.value) {
     case '1':
       return (point.offer.rooms === ONE_ROOM);
     case '2':
@@ -58,8 +58,8 @@ const filteringByRooms = function (point) {
   }
 };
 
-const filteringByGuests = function (point) {
-  switch (mapFiltersGuests.value) {
+const filteringByGuests = (point) => {
+  switch (guestsElement.value) {
     case '0':
       return (point.offer.guests === NOT_FOR_GUESTS);
     case '1':
@@ -71,10 +71,10 @@ const filteringByGuests = function (point) {
   }
 };
 
-const filteringByFeatures = function (point) {
+const filteringByFeatures = (point) => {
   let featuresChecked = 0;
   let featuresInPoint = 0;
-  mapFiltersFeatures.forEach((feature) => {
+  featuresElement.forEach((feature) => {
     if (feature.checked) {
       featuresChecked++;
       if (!!point.offer.features && point.offer.features.includes(feature.value, 0)) {

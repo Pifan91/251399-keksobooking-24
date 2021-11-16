@@ -1,4 +1,4 @@
-import { activatePage, deactivatePage, setCoordinates, adForm } from './form.js';
+import { activatePage, deactivatePage, setCoordinates, adFormElement } from './form.js';
 import { createCard } from './card.js';
 
 const DEFAULT_LAT = 35.68172;
@@ -96,7 +96,7 @@ window.addEventListener('load', () => {
   deactivatePage();
 });
 
-adForm.addEventListener('reset', () => {
+adFormElement.addEventListener('reset', () => {
   mapToDefault();
 });
 

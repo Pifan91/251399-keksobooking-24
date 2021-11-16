@@ -8,20 +8,20 @@ const DEFAULT_LNG = 139.75392;
 const DEFAULT_PRICE = 1000;
 const DEFAULT_PICTURE = 'img/muffin-grey.svg';
 const FILE_TYPES = ['jpg', 'jpeg', 'png'];
-const mapFilters = document.querySelector('.map__filters');
-const adForm = document.querySelector('.ad-form');
-const adFormAvatarUpload = adForm.querySelector('[name="avatar"]');
-const adFormAvatarPreview = adForm.querySelector('.ad-form-header__preview img');
-const adFormTitle = adForm.querySelector('[name="title"]');
-const adFormAddress = adForm.querySelector('[name="address"]');
-const adFormType = adForm.querySelector('[name="type"]');
-const adFormPrice = adForm.querySelector('[name="price"]');
-const adFormTimeIn = adForm.querySelector('[name="timein"]');
-const adFormTimeOut = adForm.querySelector('[name="timeout"]');
-const adFormRooms = adForm.querySelector('[name="rooms"]');
-const adFormGuests = adForm.querySelector('[name="capacity"]');
-const adFormImagesUpload = adForm.querySelector('[name="images"]');
-const adFormImagesPreview = adForm.querySelector('.ad-form__photo img');
+const mapFiltersElement = document.querySelector('.map__filters');
+const adFormElement = document.querySelector('.ad-form');
+const avatarUploadElement = adFormElement.querySelector('[name="avatar"]');
+const avatarPreviewElement = adFormElement.querySelector('.ad-form-header__preview img');
+const titleElement = adFormElement.querySelector('[name="title"]');
+const addressElement = adFormElement.querySelector('[name="address"]');
+const typeElement = adFormElement.querySelector('[name="type"]');
+const priceElement = adFormElement.querySelector('[name="price"]');
+const timeInElement = adFormElement.querySelector('[name="timein"]');
+const timeOutElement = adFormElement.querySelector('[name="timeout"]');
+const roomsElement = adFormElement.querySelector('[name="rooms"]');
+const guestsElement = adFormElement.querySelector('[name="capacity"]');
+const imagesUploadElement = adFormElement.querySelector('[name="images"]');
+const imagesPreviewElement = adFormElement.querySelector('.ad-form__photo img');
 const priceByType = {
   bungalow: 0,
   flat: 1000,
@@ -31,69 +31,69 @@ const priceByType = {
 };
 
 const setCoordinates = (lat, lng) => {
-  adFormAddress.value = `${lat}, ${lng}`;
+  addressElement.value = `${lat}, ${lng}`;
 };
 
 const setMinPrice = (type) => {
-  adFormPrice.min = priceByType[type.value];
-  adFormPrice.placeholder = priceByType[type.value];
+  priceElement.min = priceByType[type.value];
+  priceElement.placeholder = priceByType[type.value];
 };
 
 const setDefaultPrice = () => {
-  adFormPrice.min = DEFAULT_PRICE;
-  adFormPrice.placeholder = DEFAULT_PRICE;
+  priceElement.min = DEFAULT_PRICE;
+  priceElement.placeholder = DEFAULT_PRICE;
 };
 
 const setDefaultPictures = () => {
-  adFormAvatarPreview.src = DEFAULT_PICTURE;
-  adFormImagesPreview.src = DEFAULT_PICTURE;
+  avatarPreviewElement.src = DEFAULT_PICTURE;
+  imagesPreviewElement.src = DEFAULT_PICTURE;
 };
 
 const timeSync = (evt) => {
-  adFormTimeIn.value = evt.target.value;
-  adFormTimeOut.value = evt.target.value;
+  timeInElement.value = evt.target.value;
+  timeOutElement.value = evt.target.value;
 };
 
 const checkPrice = () => {
-  if (Number(adFormPrice.value) < Number(adFormPrice.min)) {
-    adFormPrice.setCustomValidity(`Минимальная цена ${adFormPrice.min}`);
-  } else if (Number(adFormPrice.value) > Number(adFormPrice.max)) {
-    adFormPrice.setCustomValidity(`Максимальная цена ${adFormPrice.max}`);
+  if (Number(priceElement.value) < Number(priceElement.min)) {
+    priceElement.setCustomValidity(`Минимальная цена ${priceElement.min}`);
+  } else if (Number(priceElement.value) > Number(priceElement.max)) {
+    priceElement.setCustomValidity(`Максимальная цена ${priceElement.max}`);
   } else {
-    adFormPrice.setCustomValidity('');
+    priceElement.setCustomValidity('');
   }
 
-  adFormPrice.reportValidity();
+  priceElement.reportValidity();
 };
 
 const checkRoomsAndGuests = () => {
 
-  if (Number(adFormRooms.value) === 1 && Number(adFormGuests.value) === 1) {
-    adFormGuests.setCustomValidity('');
-  } else if (Number(adFormRooms.value) === 1) {
-    adFormGuests.setCustomValidity('1 комната для 1 гостя');
+  if (Number(roomsElement.value) === 1 && Number(guestsElement.value) === 1) {
+    guestsElement.setCustomValidity('');
+  } else if (Number(roomsElement.value) === 1) {
+    guestsElement.setCustomValidity('1 комната для 1 гостя');
   }
 
-  if (Number(adFormRooms.value) === 2 && (Number(adFormGuests.value) === 1 || Number(adFormGuests.value) === 2)) {
-    adFormGuests.setCustomValidity('');
-  } else if (Number(adFormRooms.value) === 2) {
-    adFormGuests.setCustomValidity('2 комнаты для 1-2 гостей');
+  if (Number(roomsElement.value) === 2 && (Number(guestsElement.value) === 1 || Number(guestsElement.value) === 2)) {
+    guestsElement.setCustomValidity('');
+  } else if (Number(roomsElement.value) === 2) {
+    guestsElement.setCustomValidity('2 комнаты для 1-2 гостей');
   }
 
-  if (Number(adFormRooms.value) === 3 && (Number(adFormGuests.value) === 1 || Number(adFormGuests.value) === 2 || Number(adFormGuests.value) === 3)) {
-    adFormGuests.setCustomValidity('');
-  } else if (Number(adFormRooms.value) === 3) {
-    adFormGuests.setCustomValidity('3 комнаты для 1-3 гостей');
+  if (Number(roomsElement.value) === 3 && (Number(guestsElement.value) === 1 || Number(guestsElement.value) === 2 || Number(guestsElement.value) === 3)) {
+    guestsElement.setCustomValidity('');
+  } else if (Number(roomsElement.value) === 3) {
+    guestsElement.setCustomValidity('3 комнаты для 1-3 гостей');
   }
 
-  if (Number(adFormRooms.value) === 100 && Number(adFormGuests.value) === 0) {
-    adFormGuests.setCustomValidity('');
-  } else if (Number(adFormRooms.value) === 100) {
-    adFormGuests.setCustomValidity('100 комнат не для гостей');
+  if (Number(roomsElement.value) === 100 && Number(guestsElement.value) === 0) {
+    guestsElement.setCustomValidity('');
+  } else if (Number(roomsElement.value) === 100) {
+    guestsElement.setCustomValidity('100 комнат не для гостей');
   }
 
-  adFormRooms.reportValidity();
-  adFormGuests.reportValidity();
+  roomsElement.reportValidity();
+  guestsElement.reportValidity();
 };
 
 const toggleElements = (elements) => {
@@ -103,89 +103,89 @@ const toggleElements = (elements) => {
 };
 
 const toggleForm = (form) => {
-  const formFieldsets = form.querySelectorAll('fieldset');
-  const formSelects = form.querySelectorAll('select');
-  const formInputs = form.querySelectorAll('input');
+  const fieldsetsElement = form.querySelectorAll('fieldset');
+  const selectsElement = form.querySelectorAll('select');
+  const inputsElement = form.querySelectorAll('input');
 
   (form.classList.contains(`${form.classList[0]}--disabled`)) ? form.classList.remove(`${form.classList[0]}--disabled`) : form.classList.add(`${form.classList[0]}--disabled`);
-  toggleElements(formFieldsets);
-  toggleElements(formSelects);
-  toggleElements(formInputs);
+  toggleElements(fieldsetsElement);
+  toggleElements(selectsElement);
+  toggleElements(inputsElement);
 };
 
 const deactivatePage = () => {
-  toggleForm(adForm);
-  toggleForm(mapFilters);
+  toggleForm(adFormElement);
+  toggleForm(mapFiltersElement);
 };
 
 const activatePage = () => {
-  toggleForm(adForm);
-  toggleForm(mapFilters);
+  toggleForm(adFormElement);
+  toggleForm(mapFiltersElement);
   setCoordinates(DEFAULT_LAT, DEFAULT_LNG);
-  setMinPrice(adFormType);
+  setMinPrice(typeElement);
   checkRoomsAndGuests();
 };
 
-adFormAvatarUpload.addEventListener('change', () => {
-  const file = adFormAvatarUpload.files[0];
+avatarUploadElement.addEventListener('change', () => {
+  const file = avatarUploadElement.files[0];
   const fileName = file.name.toLowerCase();
   const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
 
   if (matches) {
-    adFormAvatarPreview.src = URL.createObjectURL(file);
+    avatarPreviewElement.src = URL.createObjectURL(file);
   }
 });
 
-adFormImagesUpload.addEventListener('change', () => {
-  const file = adFormImagesUpload.files[0];
+imagesUploadElement.addEventListener('change', () => {
+  const file = imagesUploadElement.files[0];
   const fileName = file.name.toLowerCase();
   const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
 
   if (matches) {
-    adFormImagesPreview.src = URL.createObjectURL(file);
+    imagesPreviewElement.src = URL.createObjectURL(file);
   }
 });
 
-adFormTitle.addEventListener('input', () => {
-  const valueLength = adFormTitle.value.length;
+titleElement.addEventListener('input', () => {
+  const valueLength = titleElement.value.length;
 
   if (valueLength < MIN_TITLE_LENGTH) {
-    adFormTitle.setCustomValidity(`Ещё ${MIN_TITLE_LENGTH - valueLength} симв.`);
+    titleElement.setCustomValidity(`Ещё ${MIN_TITLE_LENGTH - valueLength} симв.`);
   } else if (valueLength > MAX_TITLE_LENGTH) {
-    adFormTitle.setCustomValidity(`Удалите лишние ${valueLength - MAX_TITLE_LENGTH} симв.`);
+    titleElement.setCustomValidity(`Удалите лишние ${valueLength - MAX_TITLE_LENGTH} симв.`);
   } else {
-    adFormTitle.setCustomValidity('');
+    titleElement.setCustomValidity('');
   }
 
-  adFormTitle.reportValidity();
+  titleElement.reportValidity();
 });
 
-adFormType.addEventListener('input', () => {
-  setMinPrice(adFormType);
+typeElement.addEventListener('input', () => {
+  setMinPrice(typeElement);
   checkPrice();
 });
 
-adFormPrice.addEventListener('input', () => {
+priceElement.addEventListener('input', () => {
   checkPrice();
 });
 
-adFormTimeIn.addEventListener('input', (evt) => {
+timeInElement.addEventListener('input', (evt) => {
   timeSync(evt);
 });
 
-adFormTimeOut.addEventListener('input', (evt) => {
+timeOutElement.addEventListener('input', (evt) => {
   timeSync(evt);
 });
 
-adFormRooms.addEventListener('input', () => {
+roomsElement.addEventListener('input', () => {
   checkRoomsAndGuests();
 });
 
-adFormGuests.addEventListener('input', () => {
+guestsElement.addEventListener('input', () => {
   checkRoomsAndGuests();
 });
 
-adForm.addEventListener('submit', (evt) => {
+adFormElement.addEventListener('submit', (evt) => {
   evt.preventDefault();
 
   sendData(
@@ -195,9 +195,9 @@ adForm.addEventListener('submit', (evt) => {
   );
 });
 
-adForm.addEventListener('reset', () => {
+adFormElement.addEventListener('reset', () => {
   setDefaultPrice();
   setDefaultPictures();
 });
 
-export { deactivatePage, activatePage, setCoordinates, adForm };
+export { deactivatePage, activatePage, setCoordinates, adFormElement };

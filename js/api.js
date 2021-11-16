@@ -1,4 +1,4 @@
-import { adForm } from './form.js';
+import { adFormElement } from './form.js';
 import { showMessage } from './util.js';
 
 const getData = (onSuccess) => {
@@ -30,7 +30,7 @@ const sendData = (onSuccess, onFail, body) => {
   )
     .then((response) => {
       if (response.ok) {
-        adForm.reset();
+        adFormElement.reset();
         onSuccess();
       } else {
         onFail();
